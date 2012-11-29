@@ -1,0 +1,233 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.obadaro.jinah</groupId>
+	<artifactId>parent</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+
+	<name>JINAH Parent POM</name>
+
+    <url>http://www.obadaro.com/jinah</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>	
+    
+	<developers>
+	   <developer>
+	       <id>obadaro</id>
+	       <name>Roberto Badaro</name>
+	   </developer>
+	</developers>
+	
+	<dependencyManagement>
+
+		<dependencies>
+
+            <!-- Tests -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.1</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>2.4</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymockclassextension</artifactId>
+				<version>2.4</version>
+				<type>jar</type>
+			</dependency>
+            <!-- /Tests -->
+
+		</dependencies>
+	</dependencyManagement>
+
+
+	<!-- Global dependencies -->
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<scope>test</scope>
+		</dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymockclassextension</artifactId>
+            <scope>test</scope>
+        </dependency>
+	</dependencies>
+
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		
+		<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+		<testSourceDirectory>${basedir}/src/main/test/java</testSourceDirectory>
+		<outputDirectory>${basedir}/target/classes</outputDirectory>
+		<testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
+		
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/*.java</exclude>
+					<exclude>**/*.gif</exclude>
+					<exclude>**/*.jpg</exclude>
+					<exclude>**/*.jpeg</exclude>
+					<exclude>**/*.png</exclude>
+					<exclude>**/*.rtf</exclude>
+					<exclude>**/*.jasper</exclude>
+					<exclude>**/*.ico</exclude>
+					<exclude>**/*.xsd</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/*.xml</exclude>
+					<exclude>**/*.properties</exclude>
+					<exclude>**/*.js</exclude>
+					<exclude>**/*.xhtml</exclude>
+					<exclude>**/*.xcss</exclude>
+					<exclude>**/*.txt</exclude>
+					<exclude>**/*.csv</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.5</version>
+					<configuration>
+						<keywords>true</keywords>
+						<quiet>true</quiet>
+						<!-- Solves issues related to link lookups for all modules, even those 
+							that do not need it, that was slowing builds down. If removed review full 
+							build. -->
+						<detectOfflineLinks>false</detectOfflineLinks>
+					</configuration>
+				</plugin>
+				
+	            <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-compiler-plugin</artifactId>
+	                <version>2.3.2</version>
+	            </plugin>
+	
+	            <plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-source-plugin</artifactId>
+	                <version>2.0.4</version>
+	            </plugin>
+	            
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2.2</version>
+                </plugin>
+				
+			</plugins>
+		</pluginManagement>
+		
+		<plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <compilerVersion>1.6</compilerVersion>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+	
+		<profile>
+			<id>dist</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+	                    <executions>
+	                        <execution>
+	                            <id>attach-sources</id>
+	                            <goals>
+	                                <goal>jar</goal>
+	                            </goals>
+	                        </execution>
+	                    </executions>
+					</plugin>
+                    <plugin>
+	                    <groupId>org.apache.maven.plugins</groupId>
+	                    <artifactId>maven-javadoc-plugin</artifactId>
+	                    <executions>
+                            <execution>
+                                <id>generate-javadoc</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                                
+				</plugins>
+			</build>
+		</profile>
+		
+	</profiles>
+
+    <scm>
+        <connection>scm:git:git://github.com/jinah-project/parent.git</connection>
+        <developerConnection>scm:git:git@github.com:jinah-project/parent.git</developerConnection>
+        <url>https://github.com/jinah-project/parent</url>
+    </scm>
+    
+    <modules>
+    	<module>../jinah-common</module>
+    	<module>../jinah-entity</module>
+    	<module>../jinah-io</module>
+    	<module>../jinah-mail</module>
+    	<module>../jinah-sql</module>
+    </modules>
+</project>
